@@ -5,8 +5,6 @@ import com.github.mongobee.changeset.ChangeLog;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import static org.springframework.util.StringUtils.hasText;
-
 /**
  * Sort ChangeLogs by 'order' value or class name (if no 'order' is set)
  *
@@ -31,5 +29,9 @@ public class ChangeLogComparator implements Comparator<Class<?>>, Serializable {
     }
 
     return val1.compareTo(val2);
+  }
+
+  private boolean hasText(String s) {
+    return s.matches("\\S+");
   }
 }

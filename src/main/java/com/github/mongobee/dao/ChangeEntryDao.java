@@ -1,11 +1,5 @@
 package com.github.mongobee.dao;
 
-import static org.springframework.util.StringUtils.hasText;
-
-import org.bson.Document;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.github.mongobee.changeset.ChangeEntry;
 import com.github.mongobee.exception.MongobeeConfigurationException;
 import com.github.mongobee.exception.MongobeeConnectionException;
@@ -14,6 +8,11 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static com.github.mongobee.Mongobee.hasText;
 
 /**
  * @author lstolowski
@@ -31,9 +30,9 @@ public class ChangeEntryDao {
   private LockDao lockDao;
 
   public ChangeEntryDao(String changelogCollectionName, String lockCollectionName) {
-	this.indexDao = new ChangeEntryIndexDao(changelogCollectionName);
-	this.lockDao = new LockDao(lockCollectionName);
-	this.changelogCollectionName = changelogCollectionName;
+    this.indexDao = new ChangeEntryIndexDao(changelogCollectionName);
+    this.lockDao = new LockDao(lockCollectionName);
+    this.changelogCollectionName = changelogCollectionName;
   }
 
   public MongoDatabase getMongoDatabase() {
@@ -41,8 +40,8 @@ public class ChangeEntryDao {
   }
 
   /**
-   * @deprecated implemented only for Jongo driver compatibility and backward compatibility - do not use in other contexts
    * @return com.mongodb.DB
+   * @deprecated implemented only for Jongo driver compatibility and backward compatibility - do not use in other contexts
    */
   public DB getDb() {
     return db;
@@ -131,7 +130,7 @@ public class ChangeEntryDao {
   }
 
   public void close() {
-      this.mongoClient.close();
+    this.mongoClient.close();
   }
 
   private void initializeLock() {
@@ -148,12 +147,12 @@ public class ChangeEntryDao {
   }
 
   public void setChangelogCollectionName(String changelogCollectionName) {
-	this.indexDao.setChangelogCollectionName(changelogCollectionName);
-	this.changelogCollectionName = changelogCollectionName;
+    this.indexDao.setChangelogCollectionName(changelogCollectionName);
+    this.changelogCollectionName = changelogCollectionName;
   }
 
   public void setLockCollectionName(String lockCollectionName) {
-	this.lockDao.setLockCollectionName(lockCollectionName);
+    this.lockDao.setLockCollectionName(lockCollectionName);
   }
-  
+
 }

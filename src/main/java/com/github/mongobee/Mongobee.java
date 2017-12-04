@@ -308,7 +308,7 @@ public class Mongobee {
     dao.close();
   }
 
-  private boolean hasText(String s) {
-    return s.matches("\\S+");
+  public static boolean hasText(String s) {
+    return s != null && s.matches("\\S+");
   }
 }

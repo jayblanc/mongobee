@@ -18,22 +18,19 @@ import static java.util.Arrays.asList;
  * @since 27/07/2014
  */
 public class ChangeService {
-  private static final String DEFAULT_PROFILE = "default";
 
   private final String changeLogsBasePackage;
-  private final List<String> activeProfiles;
 
   public ChangeService(String changeLogsBasePackage) {
     this.changeLogsBasePackage = changeLogsBasePackage;
-    this.activeProfiles = asList(DEFAULT_PROFILE);
   }
 
-  public List<Class<?>> fetchChangeLogs(){
+  public List<Class<?>> fetchChangeLogs() {
     Reflections reflections = new Reflections(changeLogsBasePackage);
     Set<Class<?>> changeLogs = reflections.getTypesAnnotatedWith(ChangeLog.class);
     List<Class<?>> sortedChangeLogs = new ArrayList<>();
     sortedChangeLogs.addAll(changeLogs);
-  Collections.sort(sortedChangeLogs, new ChangeLogComparator());
+    Collections.sort(sortedChangeLogs, new ChangeLogComparator());
 
     return sortedChangeLogs;
   }
@@ -45,8 +42,8 @@ public class ChangeService {
     return changeSets;
   }
 
-  public boolean isRunAlwaysChangeSet(Method changesetMethod){
-    if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
+  public boolean isRunAlwaysChangeSet(Method changesetMethod) {
+    if (changesetMethod.isAnnotationPresent(ChangeSet.class)) {
       ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
       return annotation.runAlways();
     } else {
@@ -54,10 +51,10 @@ public class ChangeService {
     }
   }
 
-  public ChangeEntry createChangeEntry(Method changesetMethod){
-    if (changesetMethod.isAnnotationPresent(ChangeSet.class)){
+  public ChangeEntry createChangeEntry(Method changesetMethod) {
+    if (changesetMethod.isAnnotationPresent(ChangeSet.class)) {
       ChangeSet annotation = changesetMethod.getAnnotation(ChangeSet.class);
-  
+
       return new ChangeEntry(
           annotation.id(),
           annotation.author(),

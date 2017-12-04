@@ -11,7 +11,6 @@ import com.mongodb.DB;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.jongo.Jongo;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +18,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.net.UnknownHostException;
-import java.util.Collections;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -83,7 +80,7 @@ public class MongobeeTest {
     runner.execute();
 
     // then
-    verify(dao, times(13)).save(any(ChangeEntry.class)); // 13 changesets saved to dbchangelog
+    verify(dao, times(8)).save(any(ChangeEntry.class)); // 8 changesets saved to dbchangelog
 
     // dbchangelog collection checking
     long change1 = fakeMongoDatabase.getCollection(CHANGELOG_COLLECTION_NAME).count(new Document()
@@ -102,14 +99,10 @@ public class MongobeeTest {
         .append(ChangeEntry.KEY_CHANGEID, "test4")
         .append(ChangeEntry.KEY_AUTHOR, "testuser"));
     assertEquals(1, change4);
-    long change5 = fakeMongoDatabase.getCollection(CHANGELOG_COLLECTION_NAME).count(new Document()
-        .append(ChangeEntry.KEY_CHANGEID, "test5")
-        .append(ChangeEntry.KEY_AUTHOR, "testuser"));
-    assertEquals(1, change5);
 
     long changeAll = fakeMongoDatabase.getCollection(CHANGELOG_COLLECTION_NAME).count(new Document()
         .append(ChangeEntry.KEY_AUTHOR, "testuser"));
-    assertEquals(12, changeAll);
+    assertEquals(8, changeAll);
   }
 
   @Test
@@ -122,27 +115,6 @@ public class MongobeeTest {
 
     // then
     verify(dao, times(0)).save(any(ChangeEntry.class)); // no changesets saved to dbchangelog
-  }
-
-  @Test
-  public void shouldUsePreConfiguredMongoTemplate() throws Exception {
-    MongoTemplate mt = mock(MongoTemplate.class);
-    when(mt.getCollectionNames()).thenReturn(Collections.EMPTY_SET);
-    when(dao.acquireProcessLock()).thenReturn(true);
-    when(dao.isNewChange(any(ChangeEntry.class))).thenReturn(true);
-    runner.setMongoTemplate(mt);
-    runner.afterPropertiesSet();
-    verify(mt).getCollectionNames();
-  }
-
-  @Test
-  public void shouldUsePreConfiguredJongo() throws Exception {
-    Jongo jongo = mock(Jongo.class);
-    when(dao.acquireProcessLock()).thenReturn(true);
-    when(jongo.getDatabase()).thenReturn(null);
-    runner.setJongo(jongo);
-    runner.afterPropertiesSet();
-    verify(jongo).getDatabase();
   }
 
   @Test
@@ -216,8 +188,6 @@ public class MongobeeTest {
 
   @After
   public void cleanUp() {
-    runner.setMongoTemplate(null);
-    runner.setJongo(null);
     fakeDb.dropDatabase();
   }
 

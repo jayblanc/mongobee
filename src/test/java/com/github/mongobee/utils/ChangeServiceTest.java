@@ -39,7 +39,7 @@ public class ChangeServiceTest {
     List<Method> foundMethods = service.fetchChangeSets(MongobeeTestResource.class);
     
     // then
-    assertTrue(foundMethods != null && foundMethods.size() == 5);
+    assertTrue(foundMethods != null && foundMethods.size() == 4);
   }
 
   @Test
@@ -52,7 +52,7 @@ public class ChangeServiceTest {
     List<Method> foundMethods = service.fetchChangeSets(AnotherMongobeeTestResource.class);
 
     // then
-    assertTrue(foundMethods != null && foundMethods.size() == 6);
+    assertTrue(foundMethods != null && foundMethods.size() == 4);
   }
 
 

@@ -9,7 +9,7 @@
 
   <groupId>com.fairandsmart.mongobee</groupId>
   <artifactId>fs-mongobee</artifactId>
-  <version>0.19</version>
+  <version>0.20-SNAPSHOT</version>
 
   <parent>
     <groupId>com.fairandsmart</groupId>
@@ -29,7 +29,7 @@
     <connection>scm:git:git@github.com:jayblanc/mongobee.git</connection>
     <developerConnection>scm:git:git@github.com:jayblanc/mongobee.git</developerConnection>
     <url>git@github.com:jayblanc/mongobee.git</url>
-    <tag>fs-mongobee-0.19</tag>
+    <tag>mongobee-tag</tag>
   </scm>
 
   <developers>
